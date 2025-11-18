@@ -41,7 +41,7 @@ class RAGAgent:
                 retrieval_mode=RetrievalMode.SPARSE,
                 sparse_embedding=sparseEmbeddings
             )
-            promptTemplate = ChatPromptTemplate.from_template(readYaml(os.path.join(os.getcwd(), "prompts.yaml").get("ragTemplate")))
+            promptTemplate = ChatPromptTemplate.from_template(readYaml(os.path.join(os.getcwd(), "prompts.yaml")).get("ragTemplate"))
             retriever = vectorStore.as_retriever(search_kwargs = {"k": 5})
             llm = ChatCerebras(
                 model = config.get("RAGAGENT", "modelName"),
