@@ -221,6 +221,8 @@ class AgentState(TypedDict):
 
 ### **6.1. Sample Outputs**
 
+These screenshots show how the system responds to different user queries.
+
 <p align="center">
   <img src="demo/demo1.png" width="800"/><br>
   <img src="demo/demo2.png" width="800"/><br>
@@ -244,24 +246,32 @@ class AgentState(TypedDict):
 ### **6.3. Workflow & Architecture**
 
 <p align="center">
-  <img src="demo/workflowDiagram.png" width="800"/><br>
+  <b>LangGraph Mermaid Export</b><br>
   <img src="demo/langgrapphMermaidExport.png" width="800"/>
 </p>
+
 
 ### **6.4. Storage & Retrieval Layers**
 
 <p align="center">
+  <b>Qdrant VectorDB</b><br>
   <img src="demo/qdrantVectoDB.png" width="800"/>
 </p>
 
 <p align="center">
+  <b>PostgreSQL Agent Data</b><br>
   <img src="demo/postgreSQLAgentData.png" width="800"/>
 </p>
 
 ### **6.5. Monitoring & Tracing**
 
 <p align="center">
-  <img src="demo/langsmithDashboard.png" width="800"/><br>
+  <b>LangSmith Dashboard</b><br>
+  <img src="demo/langsmithDashboard.png" width="800"/>
+</p>
+
+<p align="center">
+  <b>LangSmith Tracing</b><br>
   <img src="demo/langsmithTracing.png" width="800"/>
 </p>
 
