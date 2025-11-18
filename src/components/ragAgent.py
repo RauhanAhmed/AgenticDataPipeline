@@ -11,7 +11,7 @@ from qdrant_client import QdrantClient
 from utils.logger import logger
 import os
 
-config = getConfig(os.join(os.getcwd(), "config.ini"))
+config = getConfig(os.path.join(os.getcwd(), "config.ini"))
 
 modelName = config.get("RAGAGENT", "denseEmbeddings")
 modelKwargs = {'device': 'cpu'}
