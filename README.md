@@ -210,7 +210,7 @@ pip install -r requirements.txt
 
 ```bash
 docker build -t agentic-data-pipeline .
-docker run -p 8000:8000 -d --env-file .env agentic-data-pipeline
+docker run -p 7860:7860 -d --env-file .env agentic-data-pipeline
 ```
 
 ## **6.3. Populate Data**
@@ -234,7 +234,7 @@ notebooks/SQLPoplulator.ipynb
 ## **6.4. Test the Pipeline**
 
 ```bash
-curl -X POST http://localhost:8000/answerQuery \
+curl -X POST http://localhost:7860/answerQuery \
 -H "Content-Type: application/json" \
 -d '{"query": "How many data scientist jobs are available in California?"}'
 ```
