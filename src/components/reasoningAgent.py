@@ -17,7 +17,7 @@ class ReasoningAgent:
             promptTemplate = ChatPromptTemplate.from_template(prompts.get("reasoningTemplate"))
             llm = ChatCerebras(
                 model = config.get("REASONINGAGENT", "modelName"),
-                temperature = config.getint("REASONINGAGENT", "temperature")
+                temperature = config.getfloat("REASONINGAGENT", "temperature")
             )
             chain = {"query": RunnablePassthrough()} | promptTemplate | llm | StrOutputParser()
             self.chain = chain

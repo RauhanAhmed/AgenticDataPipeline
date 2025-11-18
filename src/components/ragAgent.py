@@ -45,7 +45,7 @@ class RAGAgent:
             retriever = vectorStore.as_retriever(search_kwargs = {"k": 5})
             llm = ChatCerebras(
                 model = config.get("RAGAGENT", "modelName"),
-                temperature = config.getint("RAGAGENT", "temperature"),
+                temperature = config.getfloat("RAGAGENT", "temperature"),
                 max_tokens = config.getint("RAGAGENT", "maxTokens")
             )
             chain = {"query": RunnablePassthrough(), "context": RunnablePassthrough() | retriever} | promptTemplate | llm | StrOutputParser()

@@ -22,7 +22,7 @@ class PostgreSQLAgent:
             db = SQLDatabase(self.engine)
             llm = ChatCerebras(
                 model = self.config.get("SQLAGENT", "modelName"),
-                temperature = self.config.getint("SQLAGENT", "temperature"),
+                temperature = self.config.getfloat("SQLAGENT", "temperature"),
                 max_tokens = self.config.getint("SQLAGENT", "maxTokens")
             )
             self.toolkit = SQLDatabaseToolkit(db = db, llm = llm)

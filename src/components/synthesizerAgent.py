@@ -17,7 +17,7 @@ class SynthesizerAgent:
             promptTemplate = ChatPromptTemplate.from_template(prompts.get("synthesizerTemplate"))
             llm = ChatCerebras(
                 model = config.get("SYNTHESIZERAGENT", "modelName"),
-                temperature = config.getint("SYNTHESIZERAGENT", "temperature"),
+                temperature = config.getfloat("SYNTHESIZERAGENT", "temperature"),
                 max_tokens = config.getint("SYNTHESIZERAGENT", "maxTokens")
             )
             chain = RunnablePassthrough() | promptTemplate | llm | StrOutputParser()
