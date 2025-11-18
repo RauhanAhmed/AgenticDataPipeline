@@ -66,3 +66,6 @@ class Workflow:
 
     def run(self, query: str) -> str:
         return self.graph.invoke({"query": query})["finalAnswer"]
+    
+workflow = Workflow()
+workflow.createWorkflow()
