@@ -14,4 +14,4 @@ fastapi
 uvicorn
 loguru
 pyyaml
-psycopg2
+psycopg2-binary
