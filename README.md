@@ -23,7 +23,7 @@
 
 ---
 
-# **📑 Table of Contents**
+## **Table of Contents**
 
 1. [Introduction & Project Philosophy](#1-introduction--project-philosophy)
 2. [Directory Structure](#2-directory-structure)
@@ -38,7 +38,7 @@
 
 ---
 
-# **1. Introduction & Project Philosophy**
+## **1. Introduction & Project Philosophy**
 
 Working with data usually means dealing with scattered sources: PDFs, wiki pages, SQL databases, CSVs, and the internet. Answering a real question often means pulling something from each of them, understanding the context, and then combining it all into a clear answer.
 
@@ -48,14 +48,14 @@ The goal is simple:
 
 **Break the problem into specialized steps, run them in parallel, and combine the results intelligently.**
 
-## **1.1. Live Demonstrations**
+### **1.1. Live Demonstrations**
 
 * **Frontend UI:** [https://agenticdatapipeline.lovable.app](https://agenticdatapipeline.lovable.app)
 * **Backend API (Swagger):** [https://rauhan-agenticdatapipeline.hf.space/docs](https://rauhan-agenticdatapipeline.hf.space/docs)
 
 ---
 
-# **2. Directory Structure**
+## **2. Directory Structure**
 
 Only core project files are included — unnecessary system files (`.DS_Store`, `.venv/`, caches) have been removed.
 
@@ -127,11 +127,11 @@ AgenticDataPipeline/
 
 ---
 
-# **3. System Architecture & Data Flow**
+## **3. System Architecture & Data Flow**
 
 The system is implemented as a **stateful Directed Acyclic Graph (DAG)** using **LangGraph**, with **FastAPI** as the public-facing interface.
 
-## **3.1. AgentState**
+### **3.1. AgentState**
 
 All agents exchange information through a shared state object:
 
@@ -145,7 +145,7 @@ class AgentState(TypedDict):
     finalAnswer: Optional[str]
 ```
 
-## **3.2. End-to-End Flow**
+### **3.2. End-to-End Flow**
 
 1. The `/answerQuery` API receives a query.
 2. A fresh AgentState is created.
@@ -162,9 +162,9 @@ class AgentState(TypedDict):
 
 ---
 
-# **4. Agent Details**
+## **4. Agent Details**
 
-## **4.1. RAG Agent (“The Librarian”)**
+### **4.1. RAG Agent (“The Librarian”)**
 
 * **Model:** Llama 3.3 70B
 * Works with internal PDFs, wikis, and other documents
@@ -174,25 +174,25 @@ class AgentState(TypedDict):
   * Sparse: BM25
 * Output → `ragResults`
 
-## **4.2. PostgreSQL Agent (“The Data Whiz”)**
+### **4.2. PostgreSQL Agent (“The Data Whiz”)**
 
 * **Model:** zai-glm-4.6
 * Natural-language-to-SQL
 * Uses SQLAlchemy + LangChain SQL toolkit
 * Output → `sqlResults`
 
-## **4.3. Reasoning Agent (“The Thinker”)**
+### **4.3. Reasoning Agent (“The Thinker”)**
 
 * **Model:** qwen-3-32b
 * Uses chain-of-thought reasoning
 * Output → `reasoningResults`
 
-## **4.4. Internet Search Agent (“The Web Surfer”)**
+### **4.4. Internet Search Agent (“The Web Surfer”)**
 
 * Uses Google Serper API
 * Output → `webResults`
 
-## **4.5. Synthesizer Agent (“The Editor-in-Chief”)**
+### **4.5. Synthesizer Agent (“The Editor-in-Chief”)**
 
 * **Model:** gpt-oss-120b
 * Merges everything using:
@@ -204,7 +204,7 @@ class AgentState(TypedDict):
 
 ---
 
-# **5. Technology Stack**
+## **5. Technology Stack**
 
 | Layer       | Technology       | Reason                          |
 | ----------- | ---------------- | ------------------------------- |
@@ -217,9 +217,9 @@ class AgentState(TypedDict):
 
 ---
 
-# **6. Visual Documentation**
+## **6. Visual Documentation**
 
-## **6.1. Sample Outputs**
+### **6.1. Sample Outputs**
 
 <p align="center">
   <img src="demo/demo1.png" width="800"/><br>
@@ -229,7 +229,7 @@ class AgentState(TypedDict):
   <img src="demo/demo5.png" width="800"/>
 </p>
 
-## **6.2. Frontend & API**
+### **6.2. Frontend & API**
 
 <p align="center">
   <b>Frontend Interface</b><br>
@@ -241,14 +241,14 @@ class AgentState(TypedDict):
   <img src="demo/fastapiSwaggerUI.png" width="800"/>
 </p>
 
-## **6.3. Workflow & Architecture**
+### **6.3. Workflow & Architecture**
 
 <p align="center">
   <img src="demo/workflowDiagram.png" width="800"/><br>
   <img src="demo/langgrapphMermaidExport.png" width="800"/>
 </p>
 
-## **6.4. Storage & Retrieval Layers**
+### **6.4. Storage & Retrieval Layers**
 
 <p align="center">
   <img src="demo/qdrantVectoDB.png" width="800"/>
@@ -258,7 +258,7 @@ class AgentState(TypedDict):
   <img src="demo/postgreSQLAgentData.png" width="800"/>
 </p>
 
-## **6.5. Monitoring & Tracing**
+### **6.5. Monitoring & Tracing**
 
 <p align="center">
   <img src="demo/langsmithDashboard.png" width="800"/><br>
@@ -267,23 +267,23 @@ class AgentState(TypedDict):
 
 ---
 
-# **7. Local Installation Guide**
+## **7. Local Installation Guide**
 
-## **7.1. Requirements**
+### **7.1. Requirements**
 
 * Python 3.12+
 * Docker Engine
 
-## **7.2. Installation Steps**
+### **7.2. Installation Steps**
 
-### **1. Clone the repo**
+#### **1. Clone the repo**
 
 ```bash
 git clone https://github.com/RauhanAhmed/AgenticDataPipeline.git
 cd AgenticDataPipeline
 ```
 
-### **2. Create `.env`**
+#### **2. Create `.env`**
 
 You’ll need keys for:
 
@@ -294,7 +294,7 @@ You’ll need keys for:
 * SERPER_API_KEY
 * Additional LLM keys as needed
 
-### **3. Create virtual environment**
+#### **3. Create virtual environment**
 
 ```bash
 python3 -m venv .venv
@@ -302,28 +302,28 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### **4. Build & run Docker**
+#### **4. Build & run Docker**
 
 ```bash
 docker build -t agentic-data-pipeline .
 docker run -p 7860:7860 -d --env-file .env agentic-data-pipeline
 ```
 
-## **7.3. Populate Data**
+### **7.3. Populate Data**
 
-### **Vector Database (Qdrant)**
+#### **Vector Database (Qdrant)**
 
 ```
 notebooks/VectorDBPopulator.ipynb
 ```
 
-### **PostgreSQL Database**
+#### **PostgreSQL Database**
 
 ```
 notebooks/SQLPoplulator.ipynb
 ```
 
-## **7.4. Test the Pipeline**
+### **7.4. Test the Pipeline**
 
 ```bash
 curl -X POST http://localhost:7860/answerQuery \
@@ -333,7 +333,7 @@ curl -X POST http://localhost:7860/answerQuery \
 
 ---
 
-# **8. Roadmap**
+## **8. Roadmap**
 
 * [ ] Add Reciprocal Rank Fusion (RRF)
 * [ ] Feedback-driven fine-tuning loop
@@ -342,7 +342,7 @@ curl -X POST http://localhost:7860/answerQuery \
 
 ---
 
-# **9. Author**
+## **9. Author**
 
 Built by **Rauhan Ahmed**
 Portfolio: [https://rauhanahmed.in](https://rauhanahmed.in)
@@ -351,7 +351,7 @@ Contributions welcome — feel free to open an issue or PR.
 
 ---
 
-# **10. License**
+## **10. License**
 
 MIT License. See `LICENSE`.
 
