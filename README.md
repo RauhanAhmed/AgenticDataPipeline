@@ -1,7 +1,7 @@
 # **Agentic Data Pipeline: An Architectural Overview**
 
 <p align="center">
-  <img src="demo/architecture.png" alt="Agentic Data Pipeline Architecture" width="800"/>
+  <img src="demo/workflowDiagram.png" alt="Agentic Data Pipeline Architecture" width="800"/>
 </p>
 
 <p align="center">
@@ -143,12 +143,6 @@ Illustrations showing different query outputs:
 </p>
 
 ### **5.2. System Internals**
-
-<p align="center">
-  <b>Workflow Diagram</b><br>
-  <img src="demo/workflowDiagram.png" width="800"/>
-</p>
-
 <p align="center">
   <b>LangGraph Mermaid Export</b><br>
   <img src="demo/langgrapphMermaidExport.png" width="800"/>
@@ -181,7 +175,7 @@ Illustrations showing different query outputs:
 
 ## **6.1. Requirements**
 
-* Python 3.9+
+* Python 3.12+
 * Docker Engine
 
 ## **6.2. Installation Steps**
