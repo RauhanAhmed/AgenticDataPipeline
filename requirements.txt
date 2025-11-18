@@ -1,0 +1,16 @@
+langchain
+langchain-core
+langchain-community
+langchain-cerebras
+langchain_classic
+langchain-huggingface
+langchain-qdrant
+sentence-transformers
+langgraph
+pydantic
+qdrant-client
+sqlalchemy
+fastapi
+uvicorn
+loguru
+pyyaml
