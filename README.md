@@ -132,20 +132,22 @@ Each agent is built around a specific model and set of tools suited to its job.
 
 ### **5.1. Sample Outputs**
 
-Illustrations showing different query outputs:
+These screenshots show how the system responds to different user queries.
 
 <p align="center">
-  <img src="demo/demo1.png" width="800"/>
-  <img src="demo/demo2.png" width="800"/>
-  <img src="demo/demo3.png" width="800"/>
-  <img src="demo/demo4.png" width="800"/>
+  <img src="demo/demo1.png" width="800"/><br>
+  <img src="demo/demo2.png" width="800"/><br>
+  <img src="demo/demo3.png" width="800"/><br>
+  <img src="demo/demo4.png" width="800"/><br>
   <img src="demo/demo5.png" width="800"/>
 </p>
 
-### **5.2. System Internals**
+
+### **5.2. Frontend & API**
+
 <p align="center">
-  <b>LangGraph Mermaid Export</b><br>
-  <img src="demo/langgrapphMermaidExport.png" width="800"/>
+  <b>Frontend Interface</b><br>
+  <img src="demo/frontend.png" width="800"/>
 </p>
 
 <p align="center">
@@ -153,19 +155,39 @@ Illustrations showing different query outputs:
   <img src="demo/fastapiSwaggerUI.png" width="800"/>
 </p>
 
+### **5.3. Workflow & Architecture**
+
+<p align="center">
+  <b>Workflow Diagram</b><br>
+  <img src="demo/workflowDiagram.png" width="800"/>
+</p>
+
+<p align="center">
+  <b>LangGraph Mermaid Export</b><br>
+  <img src="demo/langgrapphMermaidExport.png" width="800"/>
+</p>
+
+### **5.4. Storage & Retrieval Layers**
+
 <p align="center">
   <b>Qdrant VectorDB</b><br>
   <img src="demo/qdrantVectoDB.png" width="800"/>
 </p>
 
 <p align="center">
-  <b>PostgreSQL Data Snapshot</b><br>
+  <b>PostgreSQL Agent Data</b><br>
   <img src="demo/postgreSQLAgentData.png" width="800"/>
 </p>
 
+### **5.5. Monitoring & Tracing**
+
 <p align="center">
-  <b>LangSmith Monitoring</b><br>
+  <b>LangSmith Dashboard</b><br>
   <img src="demo/langsmithDashboard.png" width="800"/>
+</p>
+
+<p align="center">
+  <b>LangSmith Tracing</b><br>
   <img src="demo/langsmithTracing.png" width="800"/>
 </p>
 
