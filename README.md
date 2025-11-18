@@ -5,28 +5,40 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/RauhanAhmed/AgenticDataPipeline"><img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github"></a>
-    <a href="https://agenticdatapipeline.lovable.app/"><img alt="Frontend" src="https://img.shields.io/badge/Live-Frontend-brightgreen?style=for-the-badge"></a>
-    <a href="https://rauhan-agenticdatapipeline.hf.space/docs"><img alt="Backend" src="https://img.shields.io/badge/Live-Backend-orange?style=for-the-badge"></a>
+    <a href="https://github.com/RauhanAhmed/AgenticDataPipeline">
+      <img alt="GitHub Repo" src="https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github">
+    </a>
+    <img alt="Python Version" src="https://img.shields.io/badge/Python-3.12+-blue?style=for-the-badge&logo=python">
+    <img alt="License" src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge">
+</p>
+
+<p align="center">
+    <a href="https://agenticdatapipeline.lovable.app/">
+      <img alt="Frontend" src="https://img.shields.io/badge/Live-Frontend-brightgreen?style=for-the-badge">
+    </a>
+    <a href="https://rauhan-agenticdatapipeline.hf.space/docs">
+      <img alt="Backend" src="https://img.shields.io/badge/Live-Backend-orange?style=for-the-badge">
+    </a>
 </p>
 
 ---
 
-## **📑 Table of Contents**
+# **📑 Table of Contents**
 
 1. [Introduction & Project Philosophy](#1-introduction--project-philosophy)
-2. [System Architecture & Data Flow](#2-system-architecture--data-flow)
-3. [Agent Details](#3-agent-details)
-4. [Technology Stack](#4-technology-stack)
-5. [Visual Documentation](#5-visual-documentation)
-6. [Local Installation Guide](#6-local-installation-guide)
-7. [Roadmap](#7-roadmap)
-8. [Author](#8-author)
-9. [License](#9-license)
+2. [Directory Structure](#2-directory-structure)
+3. [System Architecture & Data Flow](#3-system-architecture--data-flow)
+4. [Agent Details](#4-agent-details)
+5. [Technology Stack](#5-technology-stack)
+6. [Visual Documentation](#6-visual-documentation)
+7. [Local Installation Guide](#7-local-installation-guide)
+8. [Roadmap](#8-roadmap)
+9. [Author](#9-author)
+10. [License](#10-license)
 
 ---
 
-## **1. Introduction & Project Philosophy**
+# **1. Introduction & Project Philosophy**
 
 Working with data usually means dealing with scattered sources: PDFs, wiki pages, SQL databases, CSVs, and the internet. Answering a real question often means pulling something from each of them, understanding the context, and then combining it all into a clear answer.
 
@@ -36,20 +48,90 @@ The goal is simple:
 
 **Break the problem into specialized steps, run them in parallel, and combine the results intelligently.**
 
-This README explains the entire architecture in a practical, developer-friendly way.
-
-### **1.1. Live Demonstrations**
+## **1.1. Live Demonstrations**
 
 * **Frontend UI:** [https://agenticdatapipeline.lovable.app](https://agenticdatapipeline.lovable.app)
 * **Backend API (Swagger):** [https://rauhan-agenticdatapipeline.hf.space/docs](https://rauhan-agenticdatapipeline.hf.space/docs)
 
 ---
 
-## **2. System Architecture & Data Flow**
+# **2. Directory Structure**
+
+Only core project files are included — unnecessary system files (`.DS_Store`, `.venv/`, caches) have been removed.
+
+```
+AgenticDataPipeline/
+├── LICENSE
+├── README.md
+├── requirements.txt
+├── Dockerfile
+├── prompts.yaml
+├── config.ini
+├── .gitignore
+├── .python-version
+├── main.py
+│
+├── demo/
+│   ├── demo1.png
+│   ├── demo2.png
+│   ├── demo3.png
+│   ├── demo4.png
+│   ├── demo5.png
+│   ├── workflowDiagram.png
+│   ├── frontend.png
+│   ├── fastapiSwaggerUI.png
+│   ├── langsmithDashboard.png
+│   ├── langsmithTracing.png
+│   ├── langgrapphMermaidExport.png
+│   ├── postgreSQLAgentData.png
+│   └── qdrantVectoDB.png
+│
+├── internalDocs/
+│   ├── ai_job_dataset.csv
+│   ├── Algorithm - Wikipedia.pdf
+│   ├── Computer science - Wikipedia.pdf
+│   ├── Data structure - Wikipedia.pdf
+│   ├── Database - Wikipedia.pdf
+│   ├── Operating system - Wikipedia.pdf
+│   └── Programming language - Wikipedia.pdf
+│
+├── utils/
+│   ├── __init__.py
+│   ├── logger.py
+│   ├── exceptions.py
+│   └── initMethods.py
+│
+├── api/
+│   ├── __init__.py
+│   ├── models.py
+│   └── services.py
+│
+├── notebooks/
+│   ├── VectorDBPopulator.ipynb
+│   ├── SQLPoplulator.ipynb
+│   └── IndividualAgents.ipynb
+│
+└── src/
+    ├── __init__.py
+    ├── workflows/
+    │   ├── __init__.py
+    │   └── workflow.py
+    └── components/
+        ├── __init__.py
+        ├── ragAgent.py
+        ├── sqlAgent.py
+        ├── reasoningAgent.py
+        ├── internetSearchAgent.py
+        └── synthesizerAgent.py
+```
+
+---
+
+# **3. System Architecture & Data Flow**
 
 The system is implemented as a **stateful Directed Acyclic Graph (DAG)** using **LangGraph**, with **FastAPI** as the public-facing interface.
 
-### **2.1. AgentState**
+## **3.1. AgentState**
 
 All agents exchange information through a shared state object:
 
@@ -63,89 +145,81 @@ class AgentState(TypedDict):
     finalAnswer: Optional[str]
 ```
 
-Each agent reads from the state, performs its task, and writes back to it.
+## **3.2. End-to-End Flow**
 
-### **2.2. End-to-End Flow**
+1. The `/answerQuery` API receives a query.
+2. A fresh AgentState is created.
+3. LangGraph fans out into **four parallel agents**:
 
-1. A query comes into the `/answerQuery` API endpoint.
-2. A fresh `AgentState` is created with the user query.
-3. The state enters the LangGraph workflow.
-4. The system fans out into **four parallel agents**:
-
-   * RAG (internal documents)
-   * PostgreSQL (structured DB)
-   * Internet Search (real-time information)
-   * Reasoning (general logic)
-5. Each agent updates its portion of the state.
-6. LangGraph waits until all four have finished.
-7. The **Synthesizer Agent** combines everything.
-8. The API returns the final answer.
+   * RAG
+   * PostgreSQL
+   * Internet Search
+   * Reasoning
+4. Each agent writes back into the state.
+5. LangGraph waits until all four complete.
+6. The **Synthesizer Agent** merges all outputs.
+7. The final answer is returned.
 
 ---
 
-## **3. Agent Details**
+# **4. Agent Details**
 
-Each agent is built around a specific model and set of specialized tools.
+## **4.1. RAG Agent (“The Librarian”)**
 
-### **3.1. RAG Agent (“The Librarian”)**
+* **Model:** Llama 3.3 70B
+* Works with internal PDFs, wikis, and other documents
+* Retrieval:
 
-* **Model:** llama 3.3 70b
-* **Purpose:** Retrieve and analyze internal documents (PDFs, wiki pages, custom datasets).
-* **Retrieval stack:**
+  * Dense: `BAAI/bge-large-en-v1.5` → Qdrant
+  * Sparse: BM25
+* Output → `ragResults`
 
-  * Dense search using `BAAI/bge-large-en-v1.5` via **Qdrant**
-  * Sparse search using **BM25**
-* Writes results → `ragResults`
-
-### **3.2. PostgreSQL Agent (“The Data Whiz”)**
+## **4.2. PostgreSQL Agent (“The Data Whiz”)**
 
 * **Model:** zai-glm-4.6
-* Converts natural language into SQL queries.
-* Uses SQLAlchemy + LangChain SQL toolkit for schema awareness.
-* Writes results → `sqlResults`
+* Natural-language-to-SQL
+* Uses SQLAlchemy + LangChain SQL toolkit
+* Output → `sqlResults`
 
-### **3.3. Reasoning Agent (“The Thinker”)**
+## **4.3. Reasoning Agent (“The Thinker”)**
 
 * **Model:** qwen-3-32b
-* Handles logical, explanatory, or inference-heavy questions.
-* Uses chain-of-thought style prompting.
-* Writes results → `reasoningResults`
+* Uses chain-of-thought reasoning
+* Output → `reasoningResults`
 
-### **3.4. Internet Search Agent (“The Web Surfer”)**
+## **4.4. Internet Search Agent (“The Web Surfer”)**
 
-* Uses Google Serper for real-time search.
-* Lightweight wrapper around the Serper API.
-* Writes results → `webResults`
+* Uses Google Serper API
+* Output → `webResults`
 
-### **3.5. Synthesizer Agent (“The Editor-in-Chief”)**
+## **4.5. Synthesizer Agent (“The Editor-in-Chief”)**
 
 * **Model:** gpt-oss-120b
-* Combines results from all other agents.
-* Priority order:
+* Merges everything using:
 
-  1. Internal documents + SQL
-  2. Internet search
-  3. Reasoning agent
-* Writes final response → `finalAnswer`
-
----
-
-## **4. Technology Stack**
-
-| Layer       | Technology       | Reason                               |
-| ----------- | ---------------- | ------------------------------------ |
-| API         | FastAPI, Uvicorn | Fast, async, clean documentation     |
-| Workflow    | LangGraph        | Stateful orchestration & parallelism |
-| VectorDB    | Qdrant           | Hybrid dense+sparse retrieval        |
-| DB          | PostgreSQL       | Reliable structured storage          |
-| LLM Hosting | Cerebras         | Cost-efficient, high-speed inference |
-| Containers  | Docker           | Reproducible deployments             |
+  1. Internal docs + SQL
+  2. Internet Search
+  3. Reasoning
+* Output → `finalAnswer`
 
 ---
 
-## **5. Visual Documentation**
+# **5. Technology Stack**
 
-### **5.1. Sample Outputs**
+| Layer       | Technology       | Reason                          |
+| ----------- | ---------------- | ------------------------------- |
+| API         | FastAPI, Uvicorn | Fast, async, clean docs         |
+| Workflow    | LangGraph        | Parallel stateful orchestration |
+| VectorDB    | Qdrant           | Dense + sparse hybrid retrieval |
+| DB          | PostgreSQL       | Reliable relational backend     |
+| LLM Hosting | Cerebras         | Fast and affordable inference   |
+| Containers  | Docker           | Reproducible deployments        |
+
+---
+
+# **6. Visual Documentation**
+
+## **6.1. Sample Outputs**
 
 <p align="center">
   <img src="demo/demo1.png" width="800"/><br>
@@ -155,7 +229,7 @@ Each agent is built around a specific model and set of specialized tools.
   <img src="demo/demo5.png" width="800"/>
 </p>
 
-### **5.2. Frontend & API**
+## **6.2. Frontend & API**
 
 <p align="center">
   <b>Frontend Interface</b><br>
@@ -167,61 +241,49 @@ Each agent is built around a specific model and set of specialized tools.
   <img src="demo/fastapiSwaggerUI.png" width="800"/>
 </p>
 
-### **5.3. Workflow & Architecture**
+## **6.3. Workflow & Architecture**
 
 <p align="center">
-  <b>Workflow Diagram</b><br>
-  <img src="demo/workflowDiagram.png" width="800"/>
-</p>
-
-<p align="center">
-  <b>LangGraph Mermaid Export</b><br>
+  <img src="demo/workflowDiagram.png" width="800"/><br>
   <img src="demo/langgrapphMermaidExport.png" width="800"/>
 </p>
 
-### **5.4. Storage & Retrieval Layers**
+## **6.4. Storage & Retrieval Layers**
 
 <p align="center">
-  <b>Qdrant VectorDB</b><br>
   <img src="demo/qdrantVectoDB.png" width="800"/>
 </p>
 
 <p align="center">
-  <b>PostgreSQL Agent Data</b><br>
   <img src="demo/postgreSQLAgentData.png" width="800"/>
 </p>
 
-### **5.5. Monitoring & Tracing**
+## **6.5. Monitoring & Tracing**
 
 <p align="center">
-  <b>LangSmith Dashboard</b><br>
-  <img src="demo/langsmithDashboard.png" width="800"/>
-</p>
-
-<p align="center">
-  <b>LangSmith Tracing</b><br>
+  <img src="demo/langsmithDashboard.png" width="800"/><br>
   <img src="demo/langsmithTracing.png" width="800"/>
 </p>
 
 ---
 
-## **6. Local Installation Guide**
+# **7. Local Installation Guide**
 
-### **6.1. Requirements**
+## **7.1. Requirements**
 
 * Python 3.12+
 * Docker Engine
 
-### **6.2. Installation Steps**
+## **7.2. Installation Steps**
 
-#### **1. Clone the repo**
+### **1. Clone the repo**
 
 ```bash
 git clone https://github.com/RauhanAhmed/AgenticDataPipeline.git
 cd AgenticDataPipeline
 ```
 
-#### **2. Create a `.env` file**
+### **2. Create `.env`**
 
 You’ll need keys for:
 
@@ -230,9 +292,9 @@ You’ll need keys for:
 * POSTGRE_CONNECTION_STRING
 * CEREBRAS_API_KEY
 * SERPER_API_KEY
-* Any additional LLM keys from your config
+* Additional LLM keys as needed
 
-#### **3. Create a virtual environment**
+### **3. Create virtual environment**
 
 ```bash
 python3 -m venv .venv
@@ -240,59 +302,57 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-#### **4. Build & run the Docker image**
+### **4. Build & run Docker**
 
 ```bash
 docker build -t agentic-data-pipeline .
 docker run -p 7860:7860 -d --env-file .env agentic-data-pipeline
 ```
 
-### **6.3. Populate Data**
+## **7.3. Populate Data**
 
-#### **Vector Database (Qdrant)**
-
-Run:
+### **Vector Database (Qdrant)**
 
 ```
 notebooks/VectorDBPopulator.ipynb
 ```
 
-#### **PostgreSQL Database**
-
-Run:
+### **PostgreSQL Database**
 
 ```
 notebooks/SQLPoplulator.ipynb
 ```
 
-### **6.4. Test the Pipeline**
+## **7.4. Test the Pipeline**
 
 ```bash
 curl -X POST http://localhost:7860/answerQuery \
--H "Content-Type: application/json" \
--d '{"query": "How many data scientist jobs are available in California?"}'
+  -H "Content-Type: application/json" \
+  -d '{"query": "How many data scientist jobs are available in California?"}'
 ```
 
 ---
 
-## **7. Roadmap**
+# **8. Roadmap**
 
-* [ ] Add Reciprocal Rank Fusion (RRF) for improved retrieval
-* [ ] Build a feedback-driven fine-tuning loop
-* [ ] Introduce more specialized agents (filesystem, JIRA, etc.)
+* [ ] Add Reciprocal Rank Fusion (RRF)
+* [ ] Feedback-driven fine-tuning loop
+* [ ] New specialized agents (filesystem, JIRA, etc.)
 * [ ] Optional Streamlit/Gradio UI
 
 ---
 
-## **8. Author**
+# **9. Author**
 
 Built by **Rauhan Ahmed**
 Portfolio: [https://rauhanahmed.in](https://rauhanahmed.in)
 
-Contributions are welcome — feel free to open an issue or PR.
+Contributions welcome — feel free to open an issue or PR.
 
 ---
 
-## **9. License**
+# **10. License**
 
-MIT License. See the `LICENSE` file.
+MIT License. See `LICENSE`.
+
+---
