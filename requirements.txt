@@ -14,3 +14,4 @@ fastapi
 uvicorn
 loguru
 pyyaml
+psycopg2
