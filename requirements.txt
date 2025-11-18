@@ -14,4 +14,5 @@ fastapi
 uvicorn
 loguru
 pyyaml
+fastembed
 psycopg2-binary
