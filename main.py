@@ -16,7 +16,7 @@ async def answerQuery(queryModel: WorkflowQuery):
         raise HTTPException(status_code = 500, detail = str(e))
     
 @app.post("/flag")
-async def flagOutput(flagModel: WorkflowQuery):
+async def flagOutput(flagModel: FlagOutput):
     try:
         response = service.flagResponse(likedOrFlaggedModel = flagModel)
         return JSONResponse(status_code = 200, content = {"response": response})

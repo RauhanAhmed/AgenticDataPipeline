@@ -18,4 +18,5 @@ dependencies = [
     "loguru>=0.7.3",
     "pyyaml>=6.0.3",
     "sqlalchemy>=2.0.44",
+    "uvicorn>=0.38.0",
 ]
